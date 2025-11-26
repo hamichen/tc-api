@@ -1150,7 +1150,8 @@ npm install
 
 1. **查看 Console 輸出**
    ```bash
-   node backend/app.js
+   cd backend
+   node app.js
    ```
 
 2. **檢查 JSON 檔案**
