@@ -7,12 +7,13 @@
 3. [技術堆疊](#技術堆疊)
 4. [環境需求](#環境需求)
 5. [安裝與設定](#安裝與設定)
-6. [後端開發指南](#後端開發指南)
-7. [前端開發指南](#前端開發指南)
-8. [API 文件](#api-文件)
-9. [資料流程](#資料流程)
-10. [開發注意事項](#開發注意事項)
-11. [疑難排解](#疑難排解)
+6. [Windows 開發環境建置](#windows-開發環境建置)
+7. [後端開發指南](#後端開發指南)
+8. [前端開發指南](#前端開發指南)
+9. [API 文件](#api-文件)
+10. [資料流程](#資料流程)
+11. [開發注意事項](#開發注意事項)
+12. [疑難排解](#疑難排解)
 
 ---
 
@@ -167,6 +168,443 @@ npm run dev
 ```
 
 前端將在 `http://localhost:5173` 啟動
+
+---
+
+## Windows 開發環境建置
+
+本章節專門針對 Windows 使用者提供完整的開發環境建置指南。
+
+### 系統需求
+
+- **作業系統**: Windows 10/11（建議使用 64 位元版本）
+- **記憶體**: 至少 8GB RAM（建議 16GB）
+- **硬碟空間**: 至少 5GB 可用空間
+
+### 1. 安裝 Node.js
+
+#### 1.1 下載 Node.js
+
+1. 前往 [Node.js 官方網站](https://nodejs.org/)
+2. 下載 **LTS（長期支援）版本**（建議 v20.x 或 v22.x）
+3. 執行下載的 `.msi` 安裝程式
+
+#### 1.2 安裝步驟
+
+1. 執行安裝程式，點擊 **Next**
+2. 接受授權條款
+3. 選擇安裝路徑（建議使用預設路徑）
+4. 確認勾選以下選項：
+   - ✅ Node.js runtime
+   - ✅ npm package manager
+   - ✅ Add to PATH（**重要**）
+5. 完成安裝
+
+#### 1.3 驗證安裝
+
+開啟 **命令提示字元（CMD）** 或 **PowerShell**，執行：
+
+```powershell
+node --version
+npm --version
+```
+
+應該會顯示版本號，例如：
+```
+v20.19.0
+10.9.2
+```
+
+### 2. 安裝 Git（選用但建議）
+
+#### 2.1 下載 Git
+
+1. 前往 [Git 官方網站](https://git-scm.com/download/win)
+2. 下載最新版本的 Git for Windows
+3. 執行安裝程式
+
+#### 2.2 安裝設定
+
+建議使用以下設定：
+- 編輯器：選擇您偏好的編輯器（例如 VS Code）
+- PATH 設定：選擇 **Git from the command line and also from 3rd-party software**
+- HTTPS 傳輸：使用 **OpenSSL library**
+- 行尾轉換：選擇 **Checkout Windows-style, commit Unix-style line endings**
+- 終端機模擬器：選擇 **Use Windows' default console window** 或 **Use MinTTY**
+
+#### 2.3 驗證安裝
+
+```powershell
+git --version
+```
+
+### 3. 安裝程式碼編輯器
+
+#### 推薦：Visual Studio Code
+
+1. 前往 [VS Code 官網](https://code.visualstudio.com/)
+2. 下載 Windows 版本
+3. 安裝時建議勾選：
+   - ✅ 新增至 PATH（可在命令列中使用 `code` 指令）
+   - ✅ 將「透過 Code 開啟」動作新增至檔案總管
+   - ✅ 將「透過 Code 開啟」動作新增至目錄
+
+#### 推薦擴充功能
+
+安裝以下 VS Code 擴充功能以提升開發體驗：
+
+- **Vue - Official**（Vue 3 支援）
+- **ESLint**（程式碼檢查）
+- **Prettier**（程式碼格式化）
+- **Path Intellisense**（路徑自動完成）
+- **Auto Close Tag**（自動關閉標籤）
+
+### 4. 設定專案
+
+#### 4.1 複製專案
+
+使用 Git：
+```powershell
+git clone <repository-url>
+cd tc-api
+```
+
+或直接下載專案 ZIP 檔並解壓縮。
+
+#### 4.2 後端設定
+
+##### 安裝後端依賴
+
+在專案根目錄開啟 PowerShell 或命令提示字元：
+
+```powershell
+npm install
+```
+
+##### 建立環境變數檔案
+
+在專案根目錄建立 `.env` 檔案：
+
+**方法一：使用記事本**
+```powershell
+notepad .env
+```
+
+**方法二：使用 VS Code**
+```powershell
+code .env
+```
+
+輸入以下內容：
+```env
+# 伺服器設定
+PORT=3001
+
+# OAuth 設定
+OAUTH_TOKEN_URL=https://your-school-api.com/oauth/token
+OAUTH_CLIENT_ID=your_client_id
+OAUTH_CLIENT_SECRET=your_client_secret
+
+# 校務系統 API 設定
+SCHOOL_API_URL=https://your-school-api.com/api
+```
+
+##### 建立資料目錄
+
+```powershell
+# PowerShell
+New-Item -Path "backend\data" -ItemType Directory -Force
+
+# 或使用 CMD
+mkdir backend\data
+```
+
+#### 4.3 前端設定
+
+##### 安裝前端依賴
+
+```powershell
+cd frontend
+npm install
+```
+
+> **注意**：如果遇到 `EPERM` 或權限錯誤，請以**系統管理員身分**執行 PowerShell 或 CMD。
+
+### 5. 啟動開發伺服器
+
+#### 5.1 啟動後端
+
+**方法一：使用 PowerShell（建議開啟兩個終端視窗）**
+
+在專案根目錄：
+```powershell
+node backend\app.js
+```
+
+**方法二：使用 VS Code 整合終端機**
+
+1. 在 VS Code 中開啟專案
+2. 按 `` Ctrl + ` `` 開啟終端機
+3. 執行：
+   ```powershell
+   node backend\app.js
+   ```
+
+成功啟動後會顯示：
+```
+Backend running on http://localhost:3001
+```
+
+#### 5.2 啟動前端
+
+開啟**另一個**終端視窗，切換到 frontend 目錄：
+
+```powershell
+cd frontend
+npm run dev
+```
+
+成功啟動後會顯示類似：
+```
+VITE v7.1.11  ready in 1234 ms
+
+➜  Local:   http://localhost:5173/
+➜  Network: use --host to expose
+➜  press h + enter to show help
+```
+
+#### 5.3 在瀏覽器中開啟
+
+開啟瀏覽器，前往：
+- 前端：`http://localhost:5173`
+- 後端 API：`http://localhost:3001/api`
+
+### 6. Windows 特定注意事項
+
+#### 6.1 路徑分隔符號
+
+Windows 使用反斜線 `\`，而 Linux/Mac 使用斜線 `/`。Node.js 的 `path` 模組會自動處理，但在設定檔中請注意：
+
+```javascript
+// ✅ 推薦：使用 path.join()
+const filePath = path.join(__dirname, 'data', 'school.json');
+
+// ❌ 避免：硬編碼路徑
+const filePath = __dirname + '/data/school.json';  // 在 Windows 可能有問題
+```
+
+#### 6.2 防火牆設定
+
+第一次啟動後端時，Windows 防火牆可能會跳出提示：
+
+1. 點擊「**允許存取**」
+2. 確保勾選「**私人網路**」
+
+#### 6.3 埠號佔用問題
+
+如果遇到 `EADDRINUSE` 錯誤（埠號已被佔用）：
+
+**查詢佔用埠號的程序：**
+```powershell
+netstat -ano | findstr :3001
+```
+
+**結束該程序：**
+```powershell
+taskkill /PID <PID號碼> /F
+```
+
+#### 6.4 Node.js 版本管理
+
+如需管理多個 Node.js 版本，建議使用 **nvm-windows**：
+
+1. 前往 [nvm-windows Releases](https://github.com/coreybutler/nvm-windows/releases)
+2. 下載 `nvm-setup.exe`
+3. 安裝後使用：
+   ```powershell
+   nvm install 20.19.0
+   nvm use 20.19.0
+   ```
+
+#### 6.5 編碼問題
+
+如果在終端機中看到亂碼，執行：
+
+```powershell
+# PowerShell
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+# 或設定 Node.js 環境變數
+$env:NODE_OPTIONS="--max-old-space-size=4096"
+```
+
+### 7. 使用 PowerShell 腳本自動化
+
+#### 7.1 建立啟動腳本
+
+在專案根目錄建立 `start.ps1`：
+
+```powershell
+# start.ps1
+Write-Host "🚀 啟動校務系統 API 專案..." -ForegroundColor Green
+
+# 檢查 Node.js
+if (!(Get-Command node -ErrorAction SilentlyContinue)) {
+    Write-Host "❌ 未安裝 Node.js，請先安裝 Node.js" -ForegroundColor Red
+    exit 1
+}
+
+# 檢查依賴
+if (!(Test-Path "node_modules")) {
+    Write-Host "📦 安裝後端依賴..." -ForegroundColor Yellow
+    npm install
+}
+
+if (!(Test-Path "frontend\node_modules")) {
+    Write-Host "📦 安裝前端依賴..." -ForegroundColor Yellow
+    Set-Location frontend
+    npm install
+    Set-Location ..
+}
+
+# 檢查環境變數
+if (!(Test-Path ".env")) {
+    Write-Host "⚠️  未找到 .env 檔案，請先設定環境變數" -ForegroundColor Yellow
+}
+
+# 啟動後端
+Write-Host "🔧 啟動後端伺服器..." -ForegroundColor Cyan
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "node backend\app.js"
+
+# 等待後端啟動
+Start-Sleep -Seconds 3
+
+# 啟動前端
+Write-Host "🎨 啟動前端伺服器..." -ForegroundColor Cyan
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd frontend; npm run dev"
+
+Write-Host "✅ 專案啟動完成！" -ForegroundColor Green
+Write-Host "前端: http://localhost:5173" -ForegroundColor Magenta
+Write-Host "後端: http://localhost:3001" -ForegroundColor Magenta
+```
+
+#### 7.2 執行腳本
+
+```powershell
+# 如果遇到執行原則問題，先執行：
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+
+# 執行啟動腳本
+.\start.ps1
+```
+
+### 8. 疑難排解（Windows 專屬）
+
+#### 問題 1: npm install 失敗
+
+**錯誤訊息：** `EPERM: operation not permitted` 或 `EACCES`
+
+**解決方法：**
+1. 以**系統管理員身分**執行 PowerShell
+2. 清除 npm 快取：
+   ```powershell
+   npm cache clean --force
+   ```
+3. 重新安裝：
+   ```powershell
+   npm install
+   ```
+
+#### 問題 2: node-gyp 編譯錯誤
+
+**錯誤訊息：** `gyp ERR! find VS`
+
+**解決方法：**
+安裝 Windows Build Tools：
+```powershell
+npm install --global windows-build-tools
+```
+
+#### 問題 3: 路徑過長錯誤
+
+**錯誤訊息：** `ENAMETOOLONG`
+
+**解決方法：**
+啟用 Windows 長路徑支援：
+
+1. 以系統管理員身分執行 PowerShell
+2. 執行：
+   ```powershell
+   New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+   ```
+3. 重新啟動電腦
+
+#### 問題 4: 無法載入 .env 檔案
+
+**錯誤訊息：** 環境變數未定義
+
+**檢查項目：**
+- `.env` 檔案是否在專案根目錄
+- 檔案編碼是否為 UTF-8（不要使用 UTF-8 with BOM）
+- 是否有安裝 `dotenv` 套件
+
+#### 問題 5: PowerShell 腳本無法執行
+
+**錯誤訊息：** `無法載入，因為這個系統上已停用指令碼執行`
+
+**解決方法：**
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+
+### 9. 開發工具建議
+
+#### 9.1 終端機工具
+
+**Windows Terminal**（強烈推薦）
+
+- 從 Microsoft Store 下載
+- 支援多分頁、自訂主題
+- 整合 PowerShell、CMD、Git Bash
+
+#### 9.2 API 測試工具
+
+- **Postman**：圖形化 API 測試工具
+- **Thunder Client**：VS Code 擴充功能
+- **curl**（PowerShell 內建）：
+  ```powershell
+  curl http://localhost:3001/api/students
+  ```
+
+#### 9.3 資料庫檢視工具
+
+如果未來整合資料庫，推薦：
+- **DBeaver**：通用資料庫工具
+- **DB Browser for SQLite**：SQLite 專用
+
+### 10. 效能優化（Windows）
+
+#### 10.1 排除防毒軟體掃描
+
+將專案目錄加入防毒軟體的排除清單，避免影響 `npm install` 和開發伺服器效能：
+
+- **Windows Defender**：
+  1. 設定 → 更新與安全性 → Windows 安全性
+  2. 病毒與威脅防護 → 管理設定
+  3. 新增排除項目 → 資料夾
+  4. 選擇專案目錄
+
+#### 10.2 使用 SSD
+
+確保專案位於 SSD 上，而非 HDD，可大幅提升 `npm install` 和建置速度。
+
+#### 10.3 增加 Node.js 記憶體限制
+
+如果專案較大，可增加 Node.js 記憶體：
+
+```powershell
+$env:NODE_OPTIONS="--max-old-space-size=4096"
+```
 
 ---
 
@@ -843,7 +1281,7 @@ cd frontend && npm run dev
 
 如有任何問題或建議，歡迎聯絡：
 
-- 📧 Email: your-email@example.com
+- 📧 Email: hami@cloudedu.com.tw
 - 💬 Issue: [GitHub Issues](https://github.com/your-repo/issues)
 
 ---
