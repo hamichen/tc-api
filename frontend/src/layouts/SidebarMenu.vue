@@ -15,6 +15,11 @@
         <span>教師名單</span>
       </el-menu-item>
 
+      <el-menu-item index="/score">
+        <i class="el-icon-notebook-2"></i>
+        <span>成績</span>
+      </el-menu-item>
+
       <!-- 之後可以加更多項目 -->
       <!--
       <el-menu-item index="/teachers">

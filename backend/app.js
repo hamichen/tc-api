@@ -5,6 +5,7 @@ const studentRoutes = require("./routes/students");
 const syncApi = require("./routes/sync");
 const classApi = require("./routes/classes");
 const teacherApi = require("./routes/teachers");
+const scoreSemester = require("./routes/scoreSemester")
 
 const app = express();
 app.use(cors());
@@ -14,6 +15,7 @@ app.use("/api/students", studentRoutes);
 app.use("/api/sync-school", syncApi);
 app.use("/api/classes", classApi);
 app.use("/api/teachers", teacherApi);
+app.use("/api/score-semester",scoreSemester );
 
 app.listen(config.port, () => {
   console.log("Backend running on http://localhost:" + config.port);

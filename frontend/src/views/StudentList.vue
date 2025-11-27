@@ -106,9 +106,12 @@ onMounted(() => loadClasses());
 <style scoped>
 .card {
   padding: 20px;
+  background: #fff7f0; /* 柔和奶油橘 */
+  border-radius: 12px;
+  border: 1px solid #f2e4d8;
 }
 
-/* 標題 + 同步按鈕橫向排列 */
+/* 標題與按鈕排列 */
 .title-row {
   display: flex;
   justify-content: space-between;
@@ -116,11 +119,12 @@ onMounted(() => loadClasses());
   margin-bottom: 20px;
 }
 
-/* 標題美化 */
+/* 標題美化 — 暖棕色 */
 .title {
   font-size: 26px;
-  color: #303133;
+  color: #8a4f32; /* 柔和暖棕 */
   margin: 0;
+  font-weight: 600;
 }
 
 /* 下拉選單水平排列 */
@@ -128,5 +132,40 @@ onMounted(() => loadClasses());
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+}
+
+/* ======== 元件配色微調（Element Plus）======== */
+
+/* 下拉選單與表格標頭暖色調 */
+:deep(.el-select .el-input__wrapper) {
+  background-color: #fff3e6;    /* 淡橘 */
+  border-color: #f2d3b7;
+}
+
+:deep(.el-table th) {
+  background-color: #ffe8d6;    /* 柔橘表頭 */
+  color: #8a4f32;
+  font-weight: 600;
+}
+
+/* 表格列 hover */
+:deep(.el-table__body tr:hover > td) {
+  background-color: #fff4eb !important;
+}
+
+/* 同步按鈕暖色調 */
+:deep(.el-button--primary) {
+  background-color: #e89f68;
+  border-color: #e89f68;
+}
+
+:deep(.el-button--primary:hover) {
+  background-color: #d98b50;
+  border-color: #d98b50;
+}
+
+/* 下拉選單選項 hover */
+:deep(.el-select-dropdown__item:hover) {
+  background-color: #ffe8d6;
 }
 </style>

@@ -52,6 +52,7 @@ const teachers = ref([]);
 async function loadTeachers() {
   const resp = await axios.get("http://localhost:3001/api/teachers");
   teachers.value = resp.data;
+  console.log(teachers|length)
 }
 
 onMounted(loadTeachers);
